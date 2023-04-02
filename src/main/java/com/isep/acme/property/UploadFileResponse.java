@@ -2,7 +2,6 @@ package com.isep.acme.property;
 
 public class UploadFileResponse {
 
-
     private String fileName;
     public static String fileDownloadUri;
     private String fileType;
@@ -14,8 +13,6 @@ public class UploadFileResponse {
         this.fileType = fileType;
         this.size = size;
     }
-
-
 
     public String getFileName() {
         return fileName;

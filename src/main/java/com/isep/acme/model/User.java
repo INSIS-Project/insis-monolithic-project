@@ -1,16 +1,26 @@
 package com.isep.acme.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Size;
+
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.*;
-import javax.validation.constraints.Email;
-import java.util.*;
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 @Entity
-@Getter
-@Setter
+@Data
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User implements UserDetails {
 
     private static final long serialVersionUID = 1L;
@@ -30,24 +40,27 @@ public class User implements UserDetails {
     @ElementCollection
     private Set<Role> authorities = new HashSet<>();
 
-    @Column(nullable = false, unique = true)
+    @Column(unique = true)
+    @NonNull
+    @Size(min = 9, max = 9)
     private String nif;
 
-    @Column(nullable = false)
+    @Column
+    @NonNull
     private String morada;
 
-/*    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Review> review = new ArrayList<Review>(); */
+    /*
+     * @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+     * private List<Review> review = new ArrayList<Review>();
+     */
 
-    protected User() {}
-
-    public User(final String username, final String password){
+    public User(final String username, final String password) {
         this.username = username;
         this.password = password;
     }
 
-
-    public User(final String username, final String password, final String fullName, final String nif, final String morada) {
+    public User(final String username, final String password, final String fullName, final String nif,
+            final String morada) {
         this.username = username;
         this.password = password;
         this.fullName = fullName;
@@ -58,14 +71,6 @@ public class User implements UserDetails {
     public void addAuthority(Role r) {
         authorities.add(r);
     }
-
-    public void setNif(String nif) {
-        if(nif.length() != 9) {
-            throw new IllegalArgumentException("NIF must be 9 characters.");
-        }
-        this.nif = nif;
-    }
-
 
     @Override
     public boolean isAccountNonExpired() {
@@ -87,4 +92,3 @@ public class User implements UserDetails {
         return true;
     }
 }
-

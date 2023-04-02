@@ -1,4 +1,4 @@
-package com.isep.acme;
+package com.isep.acme.config;
 
 import com.isep.acme.model.Role;
 import com.isep.acme.repositories.UserRepository;
