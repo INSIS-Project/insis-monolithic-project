@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.isep.acme.dto.ProductDTO;
 import com.isep.acme.model.Product;
-import com.isep.acme.model.ProductDTO;
 import com.isep.acme.services.ProductService;
 
 import io.swagger.v3.oas.annotations.Operation;
