@@ -1,12 +1,11 @@
-package com.isep.acme.dto;
+package com.isep.acme.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-@Data
 @AllArgsConstructor
-public class ProductDetailDTO {
+@Data
+public class ProductDTO {
     private String sku;
     private String designation;
-    private String description;
 }

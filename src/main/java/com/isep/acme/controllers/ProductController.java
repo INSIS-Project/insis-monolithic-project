@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.isep.acme.dto.ProductDTO;
+import com.isep.acme.dtos.ProductDTO;
 import com.isep.acme.model.Product;
 import com.isep.acme.services.ProductService;
 

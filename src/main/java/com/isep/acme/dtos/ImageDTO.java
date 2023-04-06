@@ -1,4 +1,4 @@
-package com.isep.acme.dto;
+package com.isep.acme.dtos;
 
 import com.isep.acme.services.ImageService;
 

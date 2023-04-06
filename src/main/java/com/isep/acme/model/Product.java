@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-import com.isep.acme.dto.ProductDTO;
+import com.isep.acme.dtos.ProductDTO;
 
 import lombok.AccessLevel;
 import lombok.Data;
