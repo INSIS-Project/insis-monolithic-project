@@ -68,7 +68,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDTO create(final Product product) {
-        final Product p = new Product(product.getSku(), product.getDesignation(), product.getDescription());
+        final Product p = new Product(product.getSku(),
+                product.getDesignation(),
+                product.getDescription());
 
         return repository.save(p).toDto();
     }
