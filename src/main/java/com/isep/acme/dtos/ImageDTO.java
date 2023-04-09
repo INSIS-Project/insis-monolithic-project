@@ -2,9 +2,10 @@ package com.isep.acme.dtos;
 
 import com.isep.acme.services.ImageService;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter @Setter
 public class ImageDTO {
 
     private ImageService service;
