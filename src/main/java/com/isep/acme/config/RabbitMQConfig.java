@@ -8,6 +8,7 @@ import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
@@ -16,19 +17,25 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMQConfig {
 
+    @Value("${spring.application.name}")
+    private String applicationName;
+
+    @Value("${spring.application.instance_id}")
+    private String instanceID;
+
     @Bean
     public Queue productCreatedQueue() {
-        return new Queue("products.create-product");
+        return new Queue("products.create-product" + "." + applicationName + "." + instanceID);
     }
 
     @Bean
     public Queue productUpdatedQueue() {
-        return new Queue("products.update-product");
+        return new Queue("products.update-product" + "." + applicationName + "." + instanceID);
     }
 
     @Bean
     public Queue productDeletedQueue() {
-        return new Queue("products.delete-product");
+        return new Queue("products.delete-product" + "." + applicationName + "." + instanceID);
     }
 
     @Bean
@@ -47,23 +54,17 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    public Binding productCreatedBinding() {
-        Queue productCreatedQueue = new Queue("products.create-product");
-        FanoutExchange productCreatedExchange = new FanoutExchange("ms.products.product-created");
+    public Binding productCreatedBinding(Queue productCreatedQueue, FanoutExchange productCreatedExchange) {
         return BindingBuilder.bind(productCreatedQueue).to(productCreatedExchange);
     }
 
     @Bean
-    public Binding productUpdatedBinding() {
-        Queue productUpdatedQueue = new Queue("products.update-product");
-        FanoutExchange productUpdatedExchange = new FanoutExchange("ms.products.product-updated");
+    public Binding productUpdatedBinding(Queue productUpdatedQueue, FanoutExchange productUpdatedExchange) {
         return BindingBuilder.bind(productUpdatedQueue).to(productUpdatedExchange);
     }
 
     @Bean
-    public Binding productDeletedBinding() {
-        Queue productDeletedQueue = new Queue("products.delete-product");
-        FanoutExchange productDeletedExchange = new FanoutExchange("ms.products.product-deleted");
+    public Binding productDeletedBinding(Queue productDeletedQueue, FanoutExchange productDeletedExchange) {
         return BindingBuilder.bind(productDeletedQueue).to(productDeletedExchange);
     }
 

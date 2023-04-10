@@ -46,7 +46,7 @@ public class Product {
      * private List<Review> review = new ArrayList<Review>();
      */
 
-    public Product(final Long productID, final String sku) {
+    /* public Product(final Long productID, final String sku) {
         this.productID = Objects.requireNonNull(productID);
         setSku(sku);
     }
@@ -59,10 +59,10 @@ public class Product {
 
     public Product(final String sku) {
         setSku(sku);
-    }
+    } */
 
     public Product(final String sku, final String designation, final String description) {
-        this(sku);
+        setSku(sku);
         setDescription(description);
         setDesignation(designation);
     }
@@ -75,6 +75,7 @@ public class Product {
     public ProductDTO toDto() {
         return new ProductDTO(this.sku, this.designation);
     }
+    
     /*
      * public List<Review> getReview() {
      * return review;

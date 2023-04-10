@@ -1,6 +1,5 @@
 package com.isep.acme.controllers;
 
-import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.isep.acme.dtos.ProductDTO;
+import com.isep.acme.messaging.ProductProducer;
 import com.isep.acme.model.Product;
 import com.isep.acme.services.ProductService;
 
@@ -30,20 +30,20 @@ class ProductController {
     @Autowired
     private ProductService service;
 
-    @Autowired
     private RabbitTemplate rabbitTemplate;
+
+    @Autowired
+    private ProductProducer productProducer;
 
     @Operation(summary = "creates a product")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<ProductDTO> create(@RequestBody Product manager) {
+    public ResponseEntity<ProductDTO> create(@RequestBody Product product) {
         try {
+            final ProductDTO productDTO = service.create(product);
+            productProducer.sendCreatedProductMessage(product);
 
-            final ProductDTO product = service.create(manager);
-            
-            rabbitTemplate.convertAndSend("products.product-created", "", product);
-    
-            return new ResponseEntity<ProductDTO>(product, HttpStatus.CREATED);
+            return new ResponseEntity<ProductDTO>(productDTO, HttpStatus.CREATED);
         } catch (Exception e) {
             e.printStackTrace();
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Product must have a unique SKU.");
