@@ -41,7 +41,7 @@ class ProductController {
 
             final ProductDTO product = service.create(manager);
             
-            rabbitTemplate.convertAndSend("products.product-created", product);
+            rabbitTemplate.convertAndSend("products.product-created", "", product);
     
             return new ResponseEntity<ProductDTO>(product, HttpStatus.CREATED);
         } catch (Exception e) {
