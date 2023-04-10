@@ -43,4 +43,10 @@ public class ProductServiceImpl implements ProductService {
     public void deleteBySku(String sku) {
         repository.deleteBySku(sku);
     }
+
+    public boolean existsBySku(String sku) {
+        final Optional<Product> product = repository.findBySku(sku);
+
+        return product != null;
+    }
 }

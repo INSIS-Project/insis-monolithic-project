@@ -27,9 +27,13 @@ public class ProductConsumer {
             Product product = objectMapper.readValue(message.getBody(), Product.class);
             log.info("Received message for created product: {}", product.getSku());
 
-            // Do something if the product already exists for the instance
+            String currentInstanceId = System.getProperty("INSTANCE_ID");
+            String producerInstanceId = message.getMessageProperties().getHeader("producerInstanceId");
+            if (producerInstanceId == null || !producerInstanceId.equals(currentInstanceId)) {
+                log.error("Message from unknown producer. Discarding message.");
+                return;
+            }
 
-            // Save the product in the database
             productService.create(product);
             log.info("Product created successfully with SKU: {}", product.getSku());
 

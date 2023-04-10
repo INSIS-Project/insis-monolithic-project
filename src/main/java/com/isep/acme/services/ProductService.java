@@ -9,5 +9,5 @@ public interface ProductService {
 
     ProductDTO updateBySku(final String sku, final Product product);
 
-    void deleteBySku(final String sku);
+    void deleteBySku(final String sku);    
 }

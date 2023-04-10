@@ -1,6 +1,5 @@
 package com.isep.acme.controllers;
 
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,8 +28,6 @@ class ProductController {
 
     @Autowired
     private ProductService service;
-
-    private RabbitTemplate rabbitTemplate;
 
     @Autowired
     private ProductProducer productProducer;
