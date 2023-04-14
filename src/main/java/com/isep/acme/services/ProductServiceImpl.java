@@ -17,26 +17,25 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDTO create(final Product product) {
-        final Product p = new Product(product.getSku(),
-                product.getDesignation(),
-                product.getDescription());
+        Product p = new Product();
+        p.setSku(product.getSku());
+        p.setDesignation(product.getDesignation());
+        p.setDescription(product.getDescription());
 
         return repository.save(p).toDto();
     }
 
     @Override
-    public ProductDTO updateBySku(String sku, Product product) {
+    public Product updateBySku(String sku, Product product) {
 
-        final Optional<Product> productToUpdate = repository.findBySku(sku);
+        final Product productToUpdate = repository.findBySku(sku)
+                .orElseThrow(() -> new RuntimeException("Product not found."));
 
-        if (productToUpdate.isEmpty())
-            return null;
+        productToUpdate.updateProduct(product);
 
-        productToUpdate.get().updateProduct(product);
+        Product productUpdated = repository.save(productToUpdate);
 
-        Product productUpdated = repository.save(productToUpdate.get());
-
-        return productUpdated.toDto();
+        return productUpdated;
     }
 
     @Override

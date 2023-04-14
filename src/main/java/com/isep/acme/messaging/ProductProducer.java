@@ -24,7 +24,7 @@ public class ProductProducer {
         rabbitTemplate.convertAndSend("ms.products.product-updated", "", product);
     }
 
-    public void sendDeletedProductMessage(Product product) {
-        rabbitTemplate.convertAndSend("ms.products.product-deleted", "", product);
+    public void sendDeletedProductMessage(String productSku) {
+        rabbitTemplate.convertAndSend("ms.products.product-deleted", "", productSku);
     }
 }

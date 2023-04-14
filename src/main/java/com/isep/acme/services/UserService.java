@@ -14,7 +14,6 @@ import com.isep.acme.repositories.UserRepository;
 
 import java.util.Optional;
 
-
 @Service
 @RequiredArgsConstructor
 public class UserService implements UserDetailsService {

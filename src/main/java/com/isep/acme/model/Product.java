@@ -1,7 +1,5 @@
 package com.isep.acme.model;
 
-import java.util.Objects;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,14 +10,13 @@ import javax.validation.constraints.Size;
 
 import com.isep.acme.dtos.ProductDTO;
 
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Getter @Setter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 public class Product {
 
     @Id
@@ -40,31 +37,12 @@ public class Product {
     @Size(max = 1200, message = "Description must not be greater than 1200 characters")
     @Column
     private String description;
-    
-    /*
-     * @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-     * private List<Review> review = new ArrayList<Review>();
-     */
 
-    /* public Product(final Long productID, final String sku) {
-        this.productID = Objects.requireNonNull(productID);
-        setSku(sku);
-    }
-
-    public Product(final Long productID, final String sku, final String designation, final String description) {
-        this(productID, sku);
-        setDescription(description);
-        setDesignation(designation);
-    }
-
-    public Product(final String sku) {
-        setSku(sku);
-    } */
 
     public Product(final String sku, final String designation, final String description) {
-        setSku(sku);
-        setDescription(description);
-        setDesignation(designation);
+        this.sku = sku;
+        this.designation = designation;
+        this.description = description;
     }
 
     public void updateProduct(Product p) {
@@ -73,17 +51,6 @@ public class Product {
     }
 
     public ProductDTO toDto() {
-        return new ProductDTO(this.sku, this.designation);
+        return new ProductDTO(this.sku, this.designation, this.description);
     }
-    
-    /*
-     * public List<Review> getReview() {
-     * return review;
-     * }
-     * 
-     * public void setReview(List<Review> review) {
-     * this.review = review;
-     * }
-     */
-
 }

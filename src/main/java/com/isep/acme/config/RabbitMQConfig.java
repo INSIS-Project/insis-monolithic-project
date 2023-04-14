@@ -14,6 +14,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+
 @Configuration
 public class RabbitMQConfig {
 
@@ -25,17 +26,17 @@ public class RabbitMQConfig {
 
     @Bean
     public Queue productCreatedQueue() {
-        return new Queue("products.create-product" + "." + applicationName + "." + instanceID);
+        return new Queue("products.create-product." + applicationName + "." + instanceID);
     }
 
     @Bean
     public Queue productUpdatedQueue() {
-        return new Queue("products.update-product" + "." + applicationName + "." + instanceID);
+        return new Queue("products.update-product." + applicationName + "." + instanceID);
     }
 
     @Bean
     public Queue productDeletedQueue() {
-        return new Queue("products.delete-product" + "." + applicationName + "." + instanceID);
+        return new Queue("products.delete-product." + applicationName + "." + instanceID);
     }
 
     @Bean
