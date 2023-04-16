@@ -30,6 +30,7 @@ public class ProductConsumer {
             Product product = productMapper.toEntity(bodyMessage);
             productService.create(product);
 
+
             log.info("Product created successfully with SKU: {}", product.getSku());
 
         } catch (Exception e) {

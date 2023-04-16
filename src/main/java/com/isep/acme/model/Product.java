@@ -36,11 +36,7 @@ public class Product {
     @Size(max = 1200, message = "Description must not be greater than 1200 characters")
     @Column
     private String description;
-    
-    /*
-     * @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-     * private List<Review> review = new ArrayList<Review>();
-     */
+
 
     public Product(final String sku, final String designation, final String description) {
         this.sku = sku;
@@ -56,15 +52,4 @@ public class Product {
     public ProductDTO toDto() {
         return new ProductDTO(this.sku, this.designation, this.description);
     }
-    
-    /*
-     * public List<Review> getReview() {
-     * return review;
-     * }
-     * 
-     * public void setReview(List<Review> review) {
-     * this.review = review;
-     * }
-     */
-
 }
