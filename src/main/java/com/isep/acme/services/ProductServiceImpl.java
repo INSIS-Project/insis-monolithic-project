@@ -5,7 +5,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.isep.acme.dtos.ProductDTO;
 import com.isep.acme.model.Product;
 import com.isep.acme.repositories.ProductRepository;
 
@@ -16,13 +15,13 @@ public class ProductServiceImpl implements ProductService {
     private ProductRepository repository;
 
     @Override
-    public ProductDTO create(final Product product) {
+    public Product create(final Product product) {
         Product p = new Product();
         p.setSku(product.getSku());
         p.setDesignation(product.getDesignation());
         p.setDescription(product.getDescription());
 
-        return repository.save(p).toDto();
+        return repository.save(p);
     }
 
     @Override

@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.isep.acme.dtos.ProductDTO;
 import com.isep.acme.messaging.ProductProducer;
 import com.isep.acme.model.Product;
 import com.isep.acme.services.ProductService;
@@ -35,13 +34,12 @@ class ProductController {
     @Operation(summary = "creates a product")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<ProductDTO> create(@RequestBody Product product) {
+    public ResponseEntity<Product> create(@RequestBody Product product) {
         try {
-            final ProductDTO productDTO = service.create(product);
-
+            service.create(product);
             productProducer.sendCreatedProductMessage(product);
 
-            return new ResponseEntity<ProductDTO>(productDTO, HttpStatus.CREATED);
+            return new ResponseEntity<Product>(product, HttpStatus.CREATED);
         } catch (Exception e) {
             e.printStackTrace(); 
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Product must have a unique SKU.");
