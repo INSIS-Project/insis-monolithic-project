@@ -1,16 +1,12 @@
 package com.isep.acme.services;
 
-import com.isep.acme.model.Product;
-import com.isep.acme.model.ProductDTO;
-import com.isep.acme.model.ProductDetailDTO;
-import com.isep.acme.repositories.ProductRepository;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import com.isep.acme.model.Product;
+import com.isep.acme.repositories.ProductRepository;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -19,78 +15,36 @@ public class ProductServiceImpl implements ProductService {
     private ProductRepository repository;
 
     @Override
-    public Optional<Product> getProductBySku( final String sku ) {
+    public Product create(final Product product) {
+        Product p = new Product();
+        p.setSku(product.getSku());
+        p.setDesignation(product.getDesignation());
+        p.setDescription(product.getDescription());
 
-        return repository.findBySku(sku);
+        return repository.save(p);
     }
 
     @Override
-    public Optional<ProductDTO> findBySku(String sku) {
-        final Optional<Product> product = repository.findBySku(sku);
+    public Product updateBySku(String sku, Product product) {
 
-        if( product.isEmpty() )
-            return Optional.empty();
-        else
-            return Optional.of( product.get().toDto() );
-    }
+        final Product productToUpdate = repository.findBySku(sku)
+                .orElseThrow(() -> new RuntimeException("Product not found."));
 
+        productToUpdate.updateProduct(product);
 
-    @Override
-    public Iterable<ProductDTO> findByDesignation(final String designation) {
-        Iterable<Product> p = repository.findByDesignation(designation);
-        List<ProductDTO> pDto = new ArrayList();
-        for (Product pd:p) {
-            pDto.add(pd.toDto());
-        }
+        Product productUpdated = repository.save(productToUpdate);
 
-        return pDto;
-    }
-
-    @Override
-    public Iterable<ProductDTO> getCatalog() {
-        Iterable<Product> p = repository.findAll();
-        List<ProductDTO> pDto = new ArrayList();
-        for (Product pd:p) {
-            pDto.add(pd.toDto());
-        }
-
-        return pDto;
-    }
-
-    public ProductDetailDTO getDetails(String sku) {
-
-        Optional<Product> p = repository.findBySku(sku);
-
-        if (p.isEmpty())
-            return null;
-        else
-            return new ProductDetailDTO(p.get().getSku(), p.get().getDesignation(), p.get().getDescription());
-    }
-
-
-    @Override
-    public ProductDTO create(final Product product) {
-        final Product p = new Product(product.getSku(), product.getDesignation(), product.getDescription());
-
-        return repository.save(p).toDto();
-    }
-
-    @Override
-    public ProductDTO updateBySku(String sku, Product product) {
-        
-        final Optional<Product> productToUpdate = repository.findBySku(sku);
-
-        if( productToUpdate.isEmpty() ) return null;
-
-        productToUpdate.get().updateProduct(product);
-
-        Product productUpdated = repository.save(productToUpdate.get());
-        
-        return productUpdated.toDto();
+        return productUpdated;
     }
 
     @Override
     public void deleteBySku(String sku) {
         repository.deleteBySku(sku);
+    }
+
+    public boolean existsBySku(String sku) {
+        final Optional<Product> product = repository.findBySku(sku);
+
+        return product != null;
     }
 }

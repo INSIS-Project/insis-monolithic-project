@@ -1,10 +1,13 @@
 package com.isep.acme.model;
 
-import lombok.Data;
+import java.util.UUID;
 
-@Data
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter @Setter
 public class UserView {
-    String userId;
+    UUID userId;
 
     String username;
 
