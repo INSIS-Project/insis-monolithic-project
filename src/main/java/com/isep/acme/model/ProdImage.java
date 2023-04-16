@@ -1,7 +1,14 @@
 package com.isep.acme.model;
 
+import java.util.UUID;
+
 import javax.annotation.Resource;
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 
 import com.isep.acme.dtos.ImageDTO;
 
@@ -12,8 +19,7 @@ import lombok.NoArgsConstructor;
 public class ProdImage {
 
     @Id
-    @GeneratedValue
-    private Long id;
+    private UUID id = UUID.randomUUID();
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "product_id")

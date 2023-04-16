@@ -1,5 +1,7 @@
 package com.isep.acme.dtos;
 
+import java.util.UUID;
+
 import com.isep.acme.services.ImageService;
 
 import lombok.Getter;
@@ -9,10 +11,10 @@ import lombok.Setter;
 public class ImageDTO {
 
     private ImageService service;
-    private Long id;
-    private Long productID;
+    private UUID id;
+    private UUID productID;
 
-    public ImageDTO(Long id, Long productID) {
+    public ImageDTO(UUID id, UUID productID) {
         this.id = id;
         this.productID = productID;
     }

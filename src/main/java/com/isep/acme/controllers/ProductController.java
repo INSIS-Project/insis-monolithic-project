@@ -38,33 +38,36 @@ class ProductController {
     public ResponseEntity<ProductDTO> create(@RequestBody Product product) {
         try {
             final ProductDTO productDTO = service.create(product);
+
             productProducer.sendCreatedProductMessage(product);
 
             return new ResponseEntity<ProductDTO>(productDTO, HttpStatus.CREATED);
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(); 
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Product must have a unique SKU.");
         }
     }
 
     @Operation(summary = "updates a product")
     @PatchMapping(value = "/{sku}")
-    public ResponseEntity<ProductDTO> Update(@PathVariable("sku") final String sku,
+    public ResponseEntity<Product> update(@PathVariable("sku") final String sku,
             @RequestBody final Product product) {
 
-        final ProductDTO productDTO = service.updateBySku(sku, product);
+        final Product productUp = service.updateBySku(sku, product);
+        productProducer.sendUpdatedProductMessage(productUp);
 
-        if (productDTO == null)
+        if (productUp == null)
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found.");
         else
-            return ResponseEntity.ok().body(productDTO);
+            return ResponseEntity.ok().body(productUp);
     }
 
     @Operation(summary = "deletes a product")
     @DeleteMapping(value = "/{sku}")
-    public ResponseEntity<Product> delete(@PathVariable("sku") final String sku) {
+    public ResponseEntity<String> delete(@PathVariable("sku") final String sku) {
 
         service.deleteBySku(sku);
-        return ResponseEntity.noContent().build();
+        productProducer.sendDeletedProductMessage(sku);
+        return ResponseEntity.ok("Product deleted.");
     }
 }

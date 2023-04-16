@@ -1,30 +1,26 @@
 package com.isep.acme.model;
 
-import java.util.Objects;
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 import com.isep.acme.dtos.ProductDTO;
 
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Getter @Setter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 public class Product {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long productID;
+    private UUID productID = UUID.randomUUID();
 
     @NotBlank(message = "SKU is mandatory")
     @Column(unique = true)
@@ -46,25 +42,10 @@ public class Product {
      * private List<Review> review = new ArrayList<Review>();
      */
 
-    /* public Product(final Long productID, final String sku) {
-        this.productID = Objects.requireNonNull(productID);
-        setSku(sku);
-    }
-
-    public Product(final Long productID, final String sku, final String designation, final String description) {
-        this(productID, sku);
-        setDescription(description);
-        setDesignation(designation);
-    }
-
-    public Product(final String sku) {
-        setSku(sku);
-    } */
-
     public Product(final String sku, final String designation, final String description) {
-        setSku(sku);
-        setDescription(description);
-        setDesignation(designation);
+        this.sku = sku;
+        this.designation = designation;
+        this.description = description;
     }
 
     public void updateProduct(Product p) {
@@ -73,7 +54,7 @@ public class Product {
     }
 
     public ProductDTO toDto() {
-        return new ProductDTO(this.sku, this.designation);
+        return new ProductDTO(this.sku, this.designation, this.description);
     }
     
     /*

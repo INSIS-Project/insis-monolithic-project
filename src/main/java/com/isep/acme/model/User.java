@@ -2,11 +2,11 @@ package com.isep.acme.model;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
@@ -14,20 +14,20 @@ import javax.validation.constraints.Size;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import lombok.AccessLevel;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.Setter;
 
 @Entity
-@Data
+@Getter @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User implements UserDetails {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue
-    private Long userId;
+    private UUID userId = UUID.randomUUID();
 
     @Column(unique = true)
     @Email
